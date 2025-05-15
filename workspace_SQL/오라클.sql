@@ -171,3 +171,59 @@ select ename, substr(ename, -3, 10) from emp;
 SELECT '010-1234-5678' as replace_before,
 replace('010-1234-5678', '-', ' ') as asd,
 replace('010-1234-5678', '-') as replace_2 from dual;
+
+--lpad(모자르면 채우고, 넘어가면 자르고)
+select lpad(ename, 10, '+') from emp;
+select lpad(ename, 5, '+') from emp;
+
+-- 문제1 ename 앞에 두글자만 출력
+select ename, substr(ename, 1, 2) from emp;
+-- 문제2 앞에 두글자만 원본을 출력하고 나머지는 4개의 *로 표시
+select rpad(substr(ename, 1, 2), 6, '*') from emp;
+-- 문제3 사원 이름 두글자만 보이고 나머지는 *로. 단, 원래 이름 길이 만큼 표시
+select rpad(substr(ename, 1, 2), length(ename), '*') from emp;
+-- 심화(job 총 20자 중 가운데 정렬)
+
+select 'ab' || 'cd' from dual;
+select empno || ' : ' || ename from emp;
+select ' ab c   ', trim('     ab c   ') from dual;
+
+--round
+select 
+    round(14.46), -- 하나만 입력하는 소수점 첫째자리 반올림
+    round(14.46, 1), -- 소수점 두번째 자리
+    round(14.46, -1)
+ from dual;
+ 
+ select trunc(14.46),
+        trunc(14.46, 1),
+        trunc(14.46, -1),
+        trunc(-14.46) from dual;
+select 
+     ceil(3.14),
+     floor(3.14),
+     ceil(-3.14),
+     floor(-3.14), 
+     trunc(-3.14) from dual;
+     
+select 7 / 3 from dual;
+select 7 / 0 from dual;
+-- 나누기 나머지 값
+select mod(7, 3) from dual;
+select mod(8, 3) from dual;
+
+select sysdate from dual;
+
+select empmo, empno + '1000' from emp;
+select empmo, empno + 'abcd' from emp;
+select 'a' + 'b' from dual;
+select 'a' || 'b' from dual;
+
+select to_char(sysdate, 'yyyy"년" mm"월" dd"일" hh24"시" mi"분" ss"초"') from dual;
+select to_char(hiredate, 'yyyy"년" mm"월" dd"일" hh24"시" mi"분" ss"초"') from emp;
+
+select to_date('2025-05-15', 'yyyy-mm-dd') from dual;
+select to_date('2025-05-15', 'yyyy-mm-dd') - to_date('2025-05-12', 'yyyy-mm-dd') from dual;
+select * from emp where hiredate > to_date('1987-06-01','yyyy-mm-dd');
+
+select sal*12 + comm, sal*12 + nvl(comm, 0) from emp;
