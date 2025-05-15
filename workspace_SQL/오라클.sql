@@ -66,5 +66,108 @@ select * from emp where deptno in (10, 20);
 -- 아닌 애들만 나오는것 not
 select * from emp where deptno not in (10, 20);
 
+-- *퀴즈*
+-- 1.부서번호가 10인 사람들을 출력
+select * from emp where deptno = 10;
+-- 2.부서번호가 10번이 아닌 사람들을 출력
+select * from emp where deptno != 10;
+-- 3.급여가 3000 이상인 사람들을 출력
+select * from emp where sal >= 3000;
+-- 4.급여가 1500~3000 사이(포함)의 사람을 출력
+select * from emp where sal >= 1500 and sal <= 3000;
+-- 5.부서번호가 10번인 사람 중 급여 2000 이상인 사람들 출력
+select * from emp where deptno = 10 and sal >= 2000;
+-- 6. 부서번호가 30번 중 1500~3000 사이(미포함)인 사람을 출력
+select * from emp where deptno = 30 and sal > 1500 and sal < 3000;
+-- 7. 부서번호 30번중 1500~3000 사이(미포함)인 사람을 연본이 작은 순으로 출력, 연봉이 같은 경우 이름 빠른순으로 출력
+select * from emp where deptno = 30 and sal > 1500 and sal < 3000 order by sal asc, ename asc;
+-- 8. 부서번호 20,30번 중 1500~3000 사이(미포함)인 사람을 연봉이 작은 순으로 출력,연봉이 같은 경우 이름이 빠른 순으로 출력
+select * from emp where (deptno = 20 or deptno = 30) and (sal > 1500 and sal < 3000) order by sal asc, ename asc;
+-- 9. 부서번호가 20또는 30이고 급여거 1500이산인 직원의 이름과 급여를 급여 오름차순으로 출력하시오
+select ename, sal from emp where (deptno = 20 or deptno = 30) and sal >= 1500 order by sal asc;
 
+select * from emp where sal between 2000 and 3000 and deptno not in (20,30);
+select * from emp where sal not between 2000 and 3000;
+-- 2000 초과, 3000미만
+select * from emp where sal between 2000 and 3000 
+and sal != 2000 
+and sal != 3000;
 
+--like(S로 시작한 사원 출력)
+select * from emp where ename like 'S%';
+-- 첫번째 상관없음
+-- 두번째 무조건 L
+-- 그 이후 상관없음
+select * from emp where ename like '_L%';
+select * from emp where ename like '%AM%';
+-- A로 포함한 사원 출력
+select * from emp where ename like '%A%';
+-- A라는 포함한 사원 뺴고 나머지
+select * from emp where ename not like '%A%';
+select * from emp where ename like '%A%S%' or ename like '%S%A%';
+select * from emp where ename like '%A%' or ename like '%a%';
+
+select comm from emp;
+-- null
+select * from emp where comm < 400;
+select * from emp where comm is null;
+select * from emp where mgr is null;
+select * from emp where comm is not null;
+
+select * from emp where deptno = 10;
+select * from emp where deptno = 20;
+-- union 앞에 있는 조회결과와 뒤에 있는 조회결과 합쳐서 조회(중복x)
+select * from emp where deptno = 10 
+union
+select * from emp where deptno = 10;
+
+select * from emp where deptno = 10 
+union all
+select * from emp where deptno = 10;
+
+select empno from emp
+union all
+select sal from emp;
+
+-- 부서 10번을 사원번호 내림차순으로 정렬하여 출력
+select * from emp where deptno = 10 order by ename desc;
+-- 부서 20번을 사원번호 오름차순으로 정렬하여 출력
+select * from emp where deptno = 20 order by ename asc;
+
+-- Q5번 사원 이름에 E가 포함된 30번 부서의 사원 중 급여가 1000~2000 사이가 아닌 사원 이름, 사원번호, 부서번호를 출력하는 SQL 구문
+select ename, empno, sal, deptno from emp where ename like '%E%' and deptno = 30 and sal not between 1000 and 2000;
+-- Q6 추가수당 없고 상급자가 있고 직책이 매니저, 사원인 사원중에거 사원이름의 두번째 글자가 L이 아닌 사원의 정보를 출력하는 SQL 구문
+select * from emp where comm is null 
+and mgr is not null 
+and job in ('MANAGER', 'CLERK') 
+and ename not like '_L%';
+
+-- upper(), lower()
+select ename, upper(ename), lower(ename), initcap(ename) from emp;
+select ename  from emp where lower(ename) like lower('%aM%');
+
+select 1 from dual;
+select 'abc' from dual;
+select upper('abc'), lower('abc') from dual;
+
+select ename, length(ename) from emp;
+
+select * from emp where length(ename) = 5;
+
+select lengthb('a'), lengthb('한') from dual;
+desc emp;
+
+-- substr
+select job, substr(job, 1, 2), substr(job, 3, 2), substr(job, 5) from emp;
+-- 사원 이름을 두번째부터 3글자만 출력
+select substr(ename, 2, 30) from emp;
+select job, substr(job, -3, 2) from emp;
+select job, substr(job, -30, 2) from emp;
+
+-- 이름의 마지막 3글자만 출력하기
+select ename, substr(ename, -3) from emp;
+select ename, substr(ename, -3, 10) from emp;
+
+SELECT '010-1234-5678' as replace_before,
+replace('010-1234-5678', '-', ' ') as asd,
+replace('010-1234-5678', '-') as replace_2 from dual;
