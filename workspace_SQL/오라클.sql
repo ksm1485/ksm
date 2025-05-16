@@ -223,7 +223,111 @@ select to_char(sysdate, 'yyyy"년" mm"월" dd"일" hh24"시" mi"분" ss"초"') f
 select to_char(hiredate, 'yyyy"년" mm"월" dd"일" hh24"시" mi"분" ss"초"') from emp;
 
 select to_date('2025-05-15', 'yyyy-mm-dd') from dual;
-select to_date('2025-05-15', 'yyyy-mm-dd') - to_date('2025-05-12', 'yyyy-mm-dd') from dual;
+select to_date('2025-05-15', 'yyyy-mm-dd') - to_date('2025-05-12', 'yyyy-mm-dd') from emp;
 select * from emp where hiredate > to_date('1987-06-01','yyyy-mm-dd');
 
 select sal*12 + comm, sal*12 + nvl(comm, 0) from emp;
+
+-- 각 사원의 연봉을 출력
+select sal, ename from emp;
+-- 월급*12+comm
+select sal * 12 + comm from emp;
+-- ename, total_pay 출력
+select ename, sal*12 + comm total_pay from emp;
+-- 최종
+select ename, sal, comm, sal*12 + nvl(comm, 0) as total_pay from emp;
+
+select empno, ename, job, sal, 
+             decode(job, 
+                        'MANAGER', sal*1.1, 
+                        'SALEMAN', sal*1.05, 
+                        'ANALYST', sal, 
+                        sal*1.03) as upsal from emp;
+SELECT
+    empno, ename, job, sal,
+    CASE job
+        WHEN 'MANAGER'  THEN sal * 1.1
+        WHEN 'SALESMAN' THEN sal * 1.05
+        WHEN 'ANALYST'  THEN sal
+        ELSE sal * 1.03
+    END upsal FROM emp;
+
+-- nvl 사용하지 않고, decode, case로 nal이랑 동일한 결과 출력하기
+select nvl(comm, -1) from emp;
+
+SELECT
+    empno, ename, comm,
+    CASE
+        WHEN comm is null  THEN '해당 사항 없음'
+        WHEN comm = 0 THEN '수당없음'
+        WHEN comm > 0 THEN '수당 : ' || comm
+    END as comm_TEXT FROM emp;
+
+--179 문제1
+select 
+    ename, empno, 
+       rpad(substr(empno, 1, 2), 4, '*'), 
+       rpad(substr(ename, 1, 1), 5, '*')    
+ from emp 
+ where
+    length(ename) >= 5 
+    and length(ename) < 6;
+
+-- 문제2
+select 
+    empno, ename, sal,
+    trunc(sal / 21.5, 2) as day_pay,
+    round((sal / 21.5) / 8, 1) as time_pay
+from emp;
+
+-- 문제3
+select empno, ename, hiredate,
+       add_months(hiredate, 3) as R_JOB from emp;
+
+-- 문제4
+select empno, ename, mgr,
+       case 
+           when mgr is null then '0000'
+           when substr(mgr, 1, 2) = 75 then '5555'
+           when substr(mgr, 1, 2) = 76 then '6666'
+           when substr(mgr, 1, 2) = 77 then '7777'
+           when substr(mgr, 1, 2) = 78 then '8888'
+           else to_char(mgr)
+    end from emp;
+
+-- sum
+select sum(sal) from emp;
+--deptno 10 것만 더하기
+select sum(sal) from emp where deptno = 10;
+
+select sum(comm) from emp;
+select count(*) from emp;
+select count(*), sum(sal) from emp;
+select count(sal), count(comm) from emp;
+
+select max(sal), min(sal) from emp;
+select max(sal), min(sal), min(hiredate), min(comm) from emp;
+-- 이름에 a가 들어가는 사람은 몇명?
+select count('*') from emp where ename like '%A%';
+
+select avg(sal) from emp;
+-- 다중행 함수(집계 함수)는 where에서 사용할 수 없다.
+-- select * from emp where sal > avg(sal);
+
+select deptno, sum(sal), count(*) from emp group by deptno;
+select job from emp group by job;
+select deptno, job, count(*), ename from emp group by deptno, job, ename;
+select job from emp where deptno = 10 group by job order by job desc;
+
+select job, deptno, avg(sal) 
+from emp
+group by deptno, job 
+having avg(sal) > 2000;
+
+/* 5 */ select job, count(*) as cnt
+/* 1 */ from emp
+/* 2 */ where sal > 1000-- and cnt >= 3 -- and count(*) >= 3
+/* 3 */ group by job
+/* 4 */ having count(*) >= 3
+/* 6 */ order by cnt desc;
+
