@@ -330,4 +330,55 @@ having avg(sal) > 2000;
 /* 3 */ group by job
 /* 4 */ having count(*) >= 3
 /* 6 */ order by cnt desc;
+---------------------------------------------------------------
+select * from dept;
 
+select * 
+from emp, dept 
+order by empno;
+
+select * 
+from emp, dept 
+where emp.deptno = dept.deptno 
+order by empno;
+
+select * 
+from emp e, dept d 
+where e.deptno = d.deptno 
+order by empno;
+-- where e, deptno = d.deptno;
+
+select e.ename, e.deptno
+from emp e, dept d
+where e.deptno = d.deptno;
+
+select * from salgrade;
+
+select * 
+from emp e, salgrade s 
+where e.sal between s.losal and s.hisal;
+
+select e1.empno, e1.ename, e1.mgr, e2.empno, e2.ename
+from emp e1, emp e2
+where e1.mgr = e2.empno;
+-- 총 13개 나옴
+select count(*) 
+from emp e1, emp e2
+where e1.mgr = e2.empno;
+
+select e1.empno, e1.ename, e1.mgr,
+       e2.empno as mgr_empno,
+       e2.ename as mgr_ename
+from emp e1, emp e2
+where e1.mgr = e2.empno(+)
+order by e1.empno;
+
+select empno, ename, deptno
+from emp e join dept d using(deptno)
+where sal >= 3000;
+
+select empno, ename, e.deptno
+from emp e left outer join dept d on(e.deptno = d.deptno);
+
+select * from emp e1 right outer join emp e2 on(e1.mgr = e2.empno);
+----------------------
