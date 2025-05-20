@@ -382,3 +382,102 @@ from emp e left outer join dept d on(e.deptno = d.deptno);
 
 select * from emp e1 right outer join emp e2 on(e1.mgr = e2.empno);
 ----------------------
+
+--퀴즈
+--각 부서별로 급여가 가장 높은 사원, 가장 낮은 사원의 급여 차이와 부서번호를 출력
+select deptno, max(sal), min(sal), max(sal) - min(sal) 급여차이
+from emp
+group by deptno;
+--심화문제
+--(job을 총 20자 중 가운데 정렬)
+select 
+job,
+lpad( job, length(job)/2 + 20/2, '-'),
+rpad(lpad(job, length(job)/2 + 20/2, '-'),
+20,'-' ) from emp;
+--226p 풀이
+--Q1
+select e.deptno as deptno, d.dname, e.empno, e.ename, e.sal
+from emp e, dept d
+where e.deptno = d.deptno 
+and sal > 2000 
+order by d.deptno, dname;
+--Q2
+select deptno, floor( avg(sal) ), max(sal), min(sal), count(*) 
+from emp e left outer join dept d using (deptno)
+group by deptno
+order by deptno;
+--Q3
+select d.deptno, dname, empno, ename, job, sal
+from dept d left outer join emp e on d. deptno = e.deptno
+order by d.deptno, e.ename;
+--Q4
+select d.deptno, d.dname, e.empno, e.ename, e.mgr,
+e2.empno mgr_empno, e2.ename mgr_ename
+from dept d
+left outer join emp e on (d.deptno = e.deptno)
+left outer join salgrade s on (e.sal >= s.losal and e.sal <= s.hisal)
+left outer join emp e2 on (e.mgr = e2.empno)
+order by d.deptno, e.empno;
+
+select * 
+from emp
+where sal > (select sal from emp where ename = 'JONES');
+
+select * from emp
+where hiredate < (select hiredate from emp where ename = 'SCOTT');
+
+select * from emp where sal > (select avg(sal) from emp);
+
+select max(sal) from emp
+group by deptno;
+
+select *
+from emp
+where sal in (select max(sal) from emp group by deptno);
+
+--from절에서의 서브쿼리
+select * 
+from(select * from emp where deptno = 10) e10, dept d
+where e10.deptno = d.deptno;
+
+select * from(
+select job, count(*) cnt
+from emp
+group by job)
+where cnt >= 3;
+
+select rownum rn, emp.*
+from emp
+order by sal desc;
+==
+select rownum rn, e.*
+from(select emp.*
+from emp
+order by sal desc) e;
+---------------------------------
+select * 
+from (select rownum rn, e.*
+from(select emp.*
+from emp
+order by sal desc) e)
+where rn >= 2 and rn <= 4;
+
+--with
+with e10 as ( select * from emp where deptno = 10)
+select ename from e10;
+
+select empno, ename, job, sal,
+(select grade
+from salgrade
+where e.sal between losal and hisal) as salgrade,
+deptno,
+(select dname 
+ from dept
+ where e.deptno = dept.deptno) as dname
+ from emp e;
+ 
+ --249p 문제
+select *
+from emp 
+where sal = (select sal from emp where ename = 'ALLEN');
