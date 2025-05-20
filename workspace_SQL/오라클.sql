@@ -476,8 +476,16 @@ deptno,
  from dept
  where e.deptno = dept.deptno) as dname
  from emp e;
- 
- --249p 문제
+
+--join의 기본 형태
 select *
-from emp 
-where sal = (select sal from emp where ename = 'ALLEN');
+from emp e, dept d
+where e.deptno = d.deptno;
+
+ --249p 문제
+
+--Q1
+select e.job, e.empno, e.ename, e.sal, d.deptno, d.dname
+from emp e, dept d
+where e.deptno = d.deptno and e.job = (select job from emp where ename = 'ALLEN');
+
