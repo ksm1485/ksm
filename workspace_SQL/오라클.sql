@@ -483,9 +483,206 @@ from emp e, dept d
 where e.deptno = d.deptno;
 
  --249p 문제
-
 --Q1
-select e.job, e.empno, e.ename, e.sal, d.deptno, d.dname
+select job, empno, ename, sal, d.deptno, dname
 from emp e, dept d
 where e.deptno = d.deptno and e.job = (select job from emp where ename = 'ALLEN');
+--Q2
+-- 1. 전체 사원 평균 급여 확보
+-- 2. 평균보다 초과하는 사람들 출력
+-- 3. 정렬은 급여 내림차순, 사원번호 오름차순
+select empno, ename,
+      (select dname from dept d where deptno =  d.deptno) dname, hiredate,
+      (select grade from salgrade s where sal >= s.losal and sal <= s.hisal)
+from emp  
+where sal > (select avg(sal) from emp)
+order by sal desc, empno desc;
+--Q3
+select job, 10 from emp where deptno = 10
+union all
+select distinct job, 30 from emp where deptno = 30;
 
+select empno, ename, job, deptno, dname
+from emp
+where deptno = 10
+and job not in (select job from emp where deptno = 30);
+--Q4
+select empno, ename, sal, grade 
+from emp e
+left outer join salgrade s on (e.sal >= s.losal and e.sal <= s.hisal)
+where sal > (select max(sal) from emp where job = 'SALESMAN');
+--    sal > all (select sal  from emp where job = 'SALESMAN');  
+--문제
+--1.커미션이 null인 사원을 급여 오름차순으로 정렬
+select * 
+from emp
+where comm is null
+order by sal asc;
+--2.(급여 등급 별) (사원 수)를 등급 (오름차순)으로 정렬 (단, 모든 등급을 표시한다)
+select s.grade, count(*)
+from emp e, salgrade s
+where e.sal between s.losal and s.hisal
+group by s.grade 
+order by s.grade asc;
+--3.이름, 급여, 급여 등급, 부서이름 조회 단, (급여 등급 3 이상만 조회). 급여 등급 내림차순, 급여 등급이 같은 경우 급여 내림 차순
+select e.ename, e.sal, s.grade, d.dname
+from emp e, salgrade s, dept d
+where e.sal between s.losal and s.hisal
+and e.deptno = d.deptno
+and s.grade >= 3
+order by s.grade desc, e.sal desc;
+--4.부서명이 SALES인 사원 중 급여 등급이 2 또는 3인 사원을 급여 내림차순으로 정렬
+select *
+from emp e
+left outer join dept d using (deptno) -- 괄호 필수
+left outer join salgrade s on (e.sal >= s.losal and e.sal <= s.hisal)
+-- where s.grade = 2 or s.grade = 3
+where s.grade in (2, 3)
+order by e.sal desc;
+-------------------------------------------------
+desc emp;
+
+-- 테이블 만들기
+create table emp_ddl(
+empno number(4),
+ename varchar2(10),
+job varchar2(9),
+mgr number(4),
+hiredate date,
+sal number(7,2),
+comm number(7,2),
+deptno number(2)
+);
+desc emp_ddl;
+select * from emp_ddl;
+
+create table dept_ddL
+as select * from dept;
+
+desc desc_ddl;
+select * from dept_ddl;
+
+create table emp_ddl_30
+as select * from emp where deptno = 30;
+
+select * from emp_ddl_30;
+
+create table empdept_ddl
+as select e.empno, e.ename, e.job, e.mgr, e.hiredate, e.sal, e.comm, d.deptno, d.dname, d.loc
+from emp e, dept d
+where 1 <> 1;
+select * from empdept_ddl;
+
+create table emp_alter
+as select * from emp;
+select * from emp_alter;
+
+alter table emp_alter
+add hp varchar2(20);
+desc emp_alter;
+select * from emp_alter;
+
+alter table emp_alter
+add age number(3) default 1;
+
+alter table emp_alter
+rename column hp to tel;
+select *from emp_alter;
+
+alter table emp_alter
+modify empno number(5);
+desc emp_alter;
+-- 수정할 때 타입의 크기가 커지는건 가능하지만 줄어드는건 안됨
+alter table emp_alter
+modify empno number(4);
+select * from emp_alter;
+
+alter table emp_alter
+drop column tel;
+
+rename emp_alter to emp_rename;
+select * from emp_rename;
+
+truncate table emp_rename;
+
+drop table emp_rename;
+----------------------------------------
+--10장 
+create table dept_temp
+as select * from dept;
+select * from dept_temp;
+
+insert into dept_temp(deptno, dname, loc)
+values(50, 'datavase', 'seoul');
+select * from dept_temp;
+
+insert into dept_temp
+values(60, 'NETWOKE', 'BUSAN');
+select * from dept_temp;
+
+--------------create table dept_temp
+--------------as select * f
+
+insert into emp_temp(empno, ename, hiredate)
+values ( 2111, '이순신', to_date('2025-05-21', 'yyyy-mm-dd') );
+
+insert into emp_temp (empno, ename, hiredate)
+values ( 3111, '심청이', sysdate );
+
+insert into emp_temp
+select * from emp where deptno = 10;
+
+create table dept_temp2
+as select * from dept;
+select * from dept_temp2;
+
+--update
+update dept_temp2
+set loc = 'SEOUL';
+
+select * from dept_temp2;
+--update, delete의
+--where를 무조건 select에서 검증하고 사용하기
+update dept_temp2
+set dname = 'DATEBASE',
+loc = 'SEOUL2'
+where deptno = 40;
+
+select * from dept_temp2
+where deptno = 40;
+
+create table emp_tmp
+as select * from emp;
+select * from emp_tmp;
+
+-- 연봉이 3% 조회 
+select sal, sal * 1.03
+from emp_tmp
+where sal < 1000;
+--수정
+update emp_tmp
+set sal = sal *1.03
+where sal < 1000;
+--결과
+select *
+from emp_tmp
+where sal < 1000;
+
+--delete
+create table emp_temp2
+as select * from emp;
+select * from emp_temp2;
+
+commit;  --save개념
+
+delete emp_temp2; --삭제
+
+rollback; --커밋까지 복구
+
+select * from emp_temp2; -- 결과
+
+-- 10번 부서를 지워보자
+delete emp_temp2
+where deptno = 10;
+
+select * from emp_temp2;
