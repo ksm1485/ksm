@@ -686,3 +686,95 @@ delete emp_temp2
 where deptno = 10;
 
 select * from emp_temp2;
+
+select * from dict;
+
+select * from user_tables;
+--indexes
+select * from user_indexes;
+
+create index idx_emp_sal 
+on emp(sal);
+
+select /*+ index(e idx_emp_sal) */ --강제 힌트 
+* from emp e 
+where sal = 2000;
+
+--view
+
+create view vw_emp20
+as(select empno, ename, job, deptno
+from emp
+where deptno = 20);
+
+select * from dept_temp;
+
+--sequence(조회할때마다 숫자 증가)
+create sequence seq_dept
+start with 10;
+
+select seq_dept.nextval
+from dual;
+
+insert into dept_temp (deptno, dname, loc)
+values (seq_dept.nextval, '테스트', '천안');
+select * from dept_temp;
+
+---primary key
+create table table_pk(
+login_id varchar2(20) primary key,
+login_pwd varchar2(20) not null,
+tel varchar2(20));
+
+select * from table_pk;
+--아마 존재하는 것 추가
+insert into table_pk
+values('id', 'pw', null);
+--null로 추가
+insert into table_pk
+values(null, 'pw', null);
+--null로 변경
+update table_pk
+set login_id = null
+where login_id = 'id';
+-- 이미 존재하는 것으로 변경
+update table_pk
+set login_id = 'id2'
+where login_id = 'id';
+
+--forign key
+create table dept_fk(
+deptno number(2) constraint pk_dept primary
+dname varchar2(14),
+loc varchar2(13));
+---------------------------------------------------------------???????
+create table dept_fk
+empno number(4) constraint pk_emp_fk primary key
+dname varchar2(14)
+loc varchar2(13));
+
+select * from dept_fk;
+
+insert into dept_fk
+values ( 1000, '이름', 10);
+
+insert into dept_fk
+values ( 1000, '부서' '위치');
+
+insert into emp_fk
+values ( 1000, '이름', 10);
+select * from emp_fk;
+
+update emp_fk
+set deptno = 20
+where deptno = 10;
+
+delete dept_fk
+where deptno = 10;
+
+delete emp_fk
+where deptno = 10;
+
+update emp_fk
+set deptno = 20
+where deptno = 10;
