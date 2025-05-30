@@ -778,3 +778,22 @@ where deptno = 10;
 update emp_fk
 set deptno = 20
 where deptno = 10;
+
+desc emp;
+---------------------------------------------------------------
+select empno, ename from emp;
+
+
+select empno, ename from emp order by empno asc;
+
+
+select ename, rpad(substr(empno, 1, 2), 4, '*') from emp; 
+-------------------------------------------------------------
+
+
+
+
+select e.empno, e.ename, d.dname, d.loc
+from emp e, dept d
+where e.deptno = d.deptno
+order by d.dname desc;
