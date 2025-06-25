@@ -24,7 +24,8 @@ public class Quiz {
 		System.out.println(s1);
 		System.out.println(en[s1]);
 
-
+		//은행 계좌 Class를 만들어 입*출금과 잔액 조회
+		
 	
 	
 	}

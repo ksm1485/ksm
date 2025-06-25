@@ -12,9 +12,9 @@ public class WhileExam04 {
 		}
 		System.out.println("메뉴를 고르세요");
 		System.out.println("1:커피, 2:차, 0:종료 ");
-//		Sanner san = new sanner (system.in);
-//		int menu = scan.nextInt();
-		
+//		Scanner san = new Scanner (System.in);
+//		int menu = Scan.nextInt();
+//		
 //		if(menu == 1) {
 //			System.out.println("커피 드릴께요");
 //		} else if(menu == 2) {

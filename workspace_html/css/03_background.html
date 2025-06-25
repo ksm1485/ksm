@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #back {
+            height: 100vh;
+            border: 1px solid red;
+
+            background-image: url(https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F112%2F2018%2F09%2F10%2F201809101050082772368_20180910105039_01_20180910105423604.jpg&type=a340);
+            /* background-image: url(asset/Spongebob-Christmas-PNG-Picture.png); */
+            background-repeat: /*repeat-x */ /*repeat-y*/ no-repeat;
+            /* background-size: 200px 300px; */
+            /* background-size: 100% 50%; */
+            /* background-size: 100% 100%; */
+            /* background-size: cover; */
+            background-size: contain;
+            background-position: center;
+        }
+
+        #back2 p {
+            height: 200vh;
+        }
+
+        #back2 {
+            height: 100vh;
+            background-image: url(https://search.pstatic.net/common/?src=http%3A%2F%2Fimgnews.naver.net%2Fimage%2F112%2F2018%2F09%2F10%2F201809101050082772368_20180910105039_01_20180910105423604.jpg&type=a340);
+            background-size: cover;
+            background-attachment: fixed;
+
+            overflow: auto;
+        }
+
+        #back3 {
+            height: 100px;
+            /* 
+                background: color || image || repeat || attachment || position
+            */
+            background: #808 url()no-repeat center;
+        }
+
+    </style>
+</head>
+<body>
+    <p id="back">
+        background img<br>
+        background img<br>
+        background img
+    </p>
+    
+    <div id="back2">
+        <p>아이유</p>
+    </div>
+
+    <div id="back3">
+        <p>이지은</p>
+    </div>
+    
+</body>
+</html>

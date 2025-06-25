@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <fieldset>
+                    NAVER
+                </fieldset>
+                <input type="text" placeholder="아이디 또는 전화번호"><br>
+                <input type="password" name="pw" placeholder="비밀번호"><br>
+                <input type="checkbox" value="1">로그인 상태 유지 <input type="checkbox" value="1">IP보안<br>
+                <input type="submit" value="로그인">
+            </td>
+        </tr>
+
+    </table>
+    <hr>
+    <br>
+    
+    <strong>회원 정보</strong>
+    <br>
+    <hr>
+    <hr>
+    <fieldset>
+        <legend>인적 사항</legend>
+        이 름 : <input type="text" placeholder="ID 입력요망">
+        주민 번호 : <input type="number">-<input type="password"><br>
+        국 적 : <select name="city" value="1" size="1">
+            <option value="내국인">내국인(대한민국)</option>
+            <option value="한국">한국</option>
+            <option value="일본">일본</option>
+            <option value="중국">중국</option>
+            <option value="미국">미국</option>
+            <option value="태국">태국</option>
+            <option value="러시아">러시아</option>
+            <option value="프랑스">프랑스</option>
+            <option value="이탈리아">이탈이아</option>
+            <option value="아프리카">아프리카</option>
+            <option value="etc">기타</option>
+        </select><br>
+        취득 자격증 : <select name="certificate" value="1" size="1">
+            <option value="정보처리기능사">정보처리기능사</option>
+            <option value="운전면허">운전면허</option>
+            <option value="산업기사">산업기사</option>
+            <option value="기사">기사</option>
+            <option value="기능장">기능장</option>
+            <option value="etc">기타</option>
+        </select><br>
+    </fieldset>
+    <fieldset>
+        <legend>성별 && 학년</legend>
+        성별 : <input type="radio" name="gender" value="male"/>남자
+             <input type="radio" name="gender" value="female"/>여자
+             <br>
+        학년 : <input type="radio" name="year" value="freshman"/>1학년
+              <input type="radio" name="year" value="sophomore" checked/>2학년
+              <input type="radio" name="year" value="junior"/>3학년
+              <input type="radio" name="year" value="senior"/>4학년
+    </fieldset>
+    <hr>
+    <fieldset>
+        <legend square>취미</legend>
+              <input type="checkbox" name="hobby" value="reading"/>독서
+              <input type="checkbox" name="hobby" value="Baduk"/>바둑
+              <input type="checkbox" name="hobby" value="golf"/>골프
+              <input type="checkbox" name="hobby" value="mountain climbing"/>등산
+              <input type="checkbox" name="hobby" value="travel"/>여행
+              <input type="checkbox" name="hobby" value="etc"/>기타
+    </fieldset>
+    <fieldset>
+        <legend>메모 사항</legend>
+        <textarea rows="5" cols="100" placeholder="메모글을 남겨 주세요"></textarea>
+    </fieldset>
+    <br>
+    첨부 서류 : <input type="file">
+    <hr>
+    <input type="submit" value="저장하기"><input type="submit" value="다시 입력하기">
+</body>
+</html>
