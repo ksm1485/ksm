@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width='device-width', initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script>
+        let _contents = []
+        window.addEventListener('load',bind)
+        function bind(){
+        // document.querySelector('#btn5')
+        //         .addEventListener('click', function(){
+        //             const serviceKey = 'qVTaW2lslPLGXY2uHKVY3Vuc66ZQmC950RmMKYEg4Grvfz%2FeYbsd%2Fp4F0CzdQQwC26aBf2fTEHW76VU0OA04RQ%3D%3D'
+        //             let url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst'
+        //             url += '?serviceKey='+ serviceKey
+        //             url += '&numOfRows=1000'
+        //             url += '&pageNo=1'
+        //             url += '&dataType=JSON'
+        //             url += '&base_date=20250715'
+        //             url += '&base_time=0930'
+        //             url += '&nx=63'
+        //             url += '&ny=110'
+
+        //             const xhr = new XMLHttpRequest();
+        //             xhr.open('get', url)
+        //             xhr.send()
+        //             xhr.onload = function(){
+        //                 console.log(xhr.responseText)
+        //                 const data = JSON.parse(xhr.responseText)
+        //                 console.log(data)
+        //             }
+
+        //         })
+
+                $('#btn10').on('click',function(){
+                    let msg = $('#msg2').val()
+                    const key = 'AIzaSyBHU43l2Ykt3t0Gg9aQvYL03nt2USFsZSo'
+                    const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+key
+                    const data = {
+                        contents: {
+                            role: 'user',
+                            parts:[{
+                                text: msg
+                            }]
+                        }
+                    }
+                    
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('post',url)
+                    xhr.setRequestHeader('content-type','application/json')
+                    xhr.send( JSON.stringify(data))
+                    xhr.onload = function(){
+                        console.log('잼미니가 말한다')
+                        console.log(xhr.responseText)
+                        const response = JSON.parse(xhr.responseText)
+                        const answer = response.candidates[0].content.parts[0].text
+                        $('#gemini').html(answer.replace(/\n/g, '<br>'))
+                    }
+                })
+            }
+     </script>
+</head>
+<body>
+    <textarea id="msg"></textarea>
+    <br>
+    <button id="btn9">텔레그램 발송</button>
+    <hr>
+    <textarea id="msg2"></textarea>
+    <br>
+    <button id="btn10">gemini에게 물어보기</button>
+    <br>
+    <div id="gemini"></div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>챗봇TEST</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    #chat { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; }
+    #userInput { width: 80%; }
+    #sendBtn { width: 18%; }
+  </style>
+</head>
+<body>
+  <h2>챗봇</h2>
+  <div id="chat"></div>
+  <input type="text" id="userInput" placeholder="메시지를 입력하세요" />
+  <button id="sendBtn">전송</button>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    sendBtn.addEventListener("click", () => {
+      const message = userInput.value;
+      if (message.trim() === "") return;
+
+      appendMessage("사용자", message);
+      respond(message);
+      userInput.value = "";
+    });
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.textContent = `${sender}: ${text}`;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function respond(message) {
+      let response = "무슨 말인지 잘 모르겠어요";
+
+      if (message.includes("1")) {
+        response = "안녕하세요! 무엇을 도와드릴까요?";
+      } else if (message.includes("2")) {
+        response = "오늘 날씨는 맑음이에요";
+      } else if (message.includes("3")) {
+        response = "오늘 컨디션 상태이에요";
+      }
+
+      appendMessage("챗봇", response);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>챗봇 TEST</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #f0f4ff, #e0eaff);
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            padding: 20px 0;
+            background-color: #FFCB00;
+            color: white;
+            margin: 0;
+            font-size: 24px;
+            color: #4e6cf1;
+        }
+
+        #chat {
+            border: none;
+            background-color: white;
+            margin: 20px auto;
+            padding: 15px;
+            width: 80%;
+            height: 300px;
+            overflow-y: scroll;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        #userInp1ut,
+        #sendBtn {
+            font-size: 16px;
+            padding: 10px;
+            margin: 0;
+        }
+
+        #userInput {
+            width: 70%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #sendBtn {
+            width: 28%;
+            background-color: #FFCB00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #sendBtn:hover {
+            background-color: gray;
+        }
+
+        .input-container {
+            width: 80%;
+            margin: 10px auto;
+            display: flex;
+            gap: 10px;
+        }
+
+        div#chat div {
+            margin-bottom: 10px;
+        }
+
+        div#chat div::before {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>✨ 챗봇 ✨</h2>
+    <div id="chat"></div>
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="메시지를 입력하세요" />
+        <button id="sendBtn">전송</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const chatbotContainer = document.getElementById("chatbotContainer");
+            const openChatBtn = document.getElementById("openChatBtn");
+
+            openChatBtn.addEventListener("click", () => {
+                chatbotContainer.style.right =
+                    chatbotContainer.style.right === "0px" ? "-400px" : "0px";
+                    
+            });
+        });
+
+        const chat = document.getElementById("chat");
+        const userInput = document.getElementById("userInput");
+        const sendBtn = document.getElementById("sendBtn");
+
+        sendBtn.addEventListener("click", () => {
+            const message = userInput.value;
+            if (message.trim() === "") return;
+
+            appendMessage("🧑 사용자", message);
+            respond(message);
+            userInput.value = "";
+        });
+
+        function appendMessage(sender, text) {
+            const msg = document.createElement("div");
+            msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+            chat.appendChild(msg);
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function respond(message) {
+            let response = "무슨 말인지 잘 모르겠어요 😅";
+
+            if (message.includes("1")) {
+                response = "송구영 팀장님🐶";
+            } else if (message.includes("2")) {
+                response = "김경식 팀원🐱";
+            } else if (message.includes("3")) {
+                response = "김상명 팀원🐰";
+            } else if (message.includes("4")) {
+                response = "김현민 팀원🐻";
+            } else if (message.includes("5")) {
+                response = "조민서 팀원🐨";
+            }
+
+            appendMessage("🤖 챗봇", response);
+
+
+        }
+        // 엔터로 전송버튼
+        userInput.addEventListener("keyup", (event) => {
+            if (event.key === "Enter") {
+            sendBtn.click();
+        }
+    });
+    </script>
+</body>
+<!-- 아이콘 버튼 -->
+<button id="openChatBtn"
+    style="position:fixed; top:20px; right:20px; background:#5c7cfa; color:white; padding:10px 15px; border:none; border-radius:50%; font-size:18px; cursor:pointer; z-index:999;">
+    💬
+</button>
+
+<!-- 챗봇 컨테이너 -->
+<div id="chatbotContainer"
+    style="position:fixed; top:0; right:-400px; width:400px; height:100%; background:white; box-shadow:-3px 0 10px rgba(0,0,0,0.2); transition: right 0.3s ease; z-index:998;">
+    <h2>✨ 챗봇 ✨</h2>
+    <div id="chat"></div>
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="메시지를 입력하세요" />
+        <button id="sendBtn">전송</button>
+    </div>
+</div>
+
+</html>

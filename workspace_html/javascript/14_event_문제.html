@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .quiz3 ul{
+            list-style: none;
+            padding-left: 0;
+        }
+        #quiz3 ul li {
+            border: 1px solid red;
+            width: 60px;
+            display: inline-block;
+            text-align: center;
+            cursor: pointer;
+        }
+        #quiz3 ul li.active {
+            text-decoration: underline;
+            font-weight: 700;
+            background-color: rgb(219, 191, 245);
+        }
+    </style>
+    <script>
+
+        window.addEventListener('load', bind) // load를 사용하면 전체를 읽어서 실행 시킬수있다
+        // 1번
+        // 신청 버튼 누르면 input의 글씨가 아래에 쌓인다
+        function bind(){
+            const bnt1 = document.querySelector('#bnt1')
+            console.log('bnt1 :', bnt1)
+            bnt1.addEventListener('click', function(){
+                const name = document.querySelector('#name').value;
+                console.log('name :', name)
+                const son = document.querySelector('#son') // 출력 칸을 son으로 생성
+                console.log('son :', son)
+                son.innerHTML = son.innerHTML + '<br>' + name;    // son이라는 컨텐츠를 innerHTML로 컨텐츠 소스를 가져와서
+                                                                  //  name 글씨를 쓸때마다 stack처럼 쌓는다
+            })
+        }
+        // 2번
+        // 주문정보와 같음 버튼을 누르면 주문자의 정보가 배송 정보로 복사됨
+
+        function bind() {
+            const same = document.querySelector('#same')
+            console.log('same :', same)
+            same.addEventListener('click', function(){
+                const ordName = document.querySelector('#ordName');
+                console.log('ordName :', ordName)
+                shoppingName.value = ordName.value;
+            })
+            same.addEventListener('click', function(){
+                const ordAddress = document.querySelector('#ordAddress');
+                console.log('ordAddress :', ordAddress)
+                shoppingAddress.value = ordAddress.value;
+            })
+            same.addEventListener('click', function(){
+                const ordPhone = document.querySelector('#ordPhone');
+                console.log('ordPhone :', ordPhone)
+                shoppingPhone.value = ordPhone.value;
+            })
+        }
+        // 3번
+        // 메뉴가 여러개일 때 선택한 메뉴만 특이하게 보이게
+            function bind(){
+                document.querySelector('#quiz3 ul')
+                .addEventListener('click', function(event){
+                    console.log('event.target :', event.target)
+                    console.log('event.currentTarget : ', event.currentTarget)
+                    
+                    // 어떻해 빠지냐?
+                    const lis = document.querySelectorAll('#quiz3 ul li')
+                    lis.forEach(function(li){
+                        console.log(li)
+                        li.classList.remove('active')
+                    })
+                    lis.forEach(li => li.classList.remove('active'))
+                    event.target.classList.add('active')
+                })
+            }
+        
+
+      
+        // 4번
+        // 썸네일 클릭 또는 mouseover 시 큰 그림 변경 및 유지
+      
+        // 5번
+        // 피자 주문 시스템
+        // 사이즈, 토핑, 도우를 선택한 정보 한번에 표시
+      
+        // 6번
+        // TODO
+        function bind(){
+            document.querySelector('#add')
+                .addEventListener('click',function(){
+                    const todo = document.querySelector('#todo').value
+                    const wrap = document.querySelector('.todo-wrap')
+                    wrap.innerHTML = todo;
+                })
+        }
+  </script>
+
+</head>
+<body>
+    <div>
+        <input type="text" id="name">
+        <input type="button" id="bnt1" value="신청">
+        <div id="son">
+
+        </div>
+    </div>
+    <hr>
+     <h3>주문자 정보</h3>
+    <div>이름: <input type="text" id="ordName"></div><br>
+    <div>주소: <input type="text" id="ordAddress"></div><br>
+    <div>전화번호: <input type="text" id="ordPhone"></div><br>
+
+    <h3>배송 정보</h3>
+    <div>이름: <input type="text" id="shoppingName"></div><br>
+    <div>주소: <input type="text" id="shoppingAddress"></div><br>
+    <div>전화번호: <input type="text" id="shoppingPhone"></div><br>
+
+    <button id="same">주문정보와 같음</button>
+    <hr>
+    
+    <div class="menu" id="quiz3">
+        <h2>문제 3</h2>
+        <div>
+            <ul>
+                <li>메뉴1</li>
+                <li class="">메뉴2</li>
+                <li>메뉴3</li>
+                <li>메뉴4</li>
+                <li>메뉴5</li>
+            </ul>
+        </div>
+
+    </div>
+    <div>
+        <h1>할일 TODO</h1>
+        <div>
+            <input type="text" id="todo">
+            <input type="button" id="add" value="추가">
+        </div>
+    </div>
+    <div>
+        <input type="checkbox" id="all">전체선택
+        <input type="button" value="전체선택">
+    </div>
+    <div class="todo-wrap">
+        <div>
+            <input type="checkbox">
+            <span>할일1</span>
+            <input type="button" value="삭제">
+        </div>
+
+    </div>
+</body>
+</html>

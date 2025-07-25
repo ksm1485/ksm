@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let _contents = []
+        window.addEventListener('load', bind)
+        function bind() {
+            $('#btn').on('click', function () {
+                let msg = $('#msg').val()
+                _contents.push({
+                    role: 'user',
+                    parts: [{ text: msg }]
+                });
+
+                const key = 'AIzaSyBHU43l2Ykt3t0Gg9aQvYL03nt2USFsZSo'
+                const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + key
+                const data = {
+                    contents: _contents
+                }
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('post', url)
+                xhr.setRequestHeader('content-type', 'application/json')
+                xhr.send(JSON.stringify(data))
+                xhr.onload = function () {
+                    const response = JSON.parse(xhr.responseText)
+                    const answer = response.candidates[0].content.parts[0].text
+                    _contents.push({
+                        role: 'model',
+                        parts: [{ text: answer }]
+                    });
+                    $('#gpt').append('<div><strong>Q:</strong> ' + msg + '<br><strong>A:</strong> ' + answer.replace(/\n/g, '<br>') + '</div><hr>')
+                }
+            })
+        }
+        btn.addEventListener("keyup", (event) => {
+            if (event.key === "Enter") {
+            btn.click();
+        }
+    });
+    </script>
+</head>
+
+<body>
+    <textarea id="msg"></textarea>
+    <br>
+    <button id="btn">gpt 물어보기</button>
+    <br>
+    <div id="gpt"></div>
+</body>
+
+</html>
